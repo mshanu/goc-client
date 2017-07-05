@@ -1,18 +1,25 @@
 <template>
-  <div id="app">
-    <ul>
-      <li v-for="user in users"> <img src="./assets/car1.png"/> {{user.icon_id}} </li>
-    </ul>
+  <div id="app" class="grid-container">
+    <div class="row" v-for="user in users"> 
+      <div class="col-2" v-for="n in 6">
+        <div v-if="user.stage + 1 === n"> 
+          <img :src="imageId(user)" class="car"/> {{user.name}} 
+          <img :src="checker" class="checker" v-if="user.stage === 5"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 const io = require('socket.io-client')
+require('./assets/css/app.css')
 export default {
   name: 'app',
   data () {
     return {
-      users: []
+      users: [],
+      checker: require('./assets/images/checkflag.png')
     }
   },
   created () {
@@ -25,19 +32,11 @@ export default {
         user.icon_id = user.userId.charCodeAt(1) % 8 + 1
         return user
       })
+    },
+    imageId (user) {
+      return require('./assets/images/car' + user.icon_id + '.png')
     }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  background-color:#E7E7E7;
-}
-</style>
