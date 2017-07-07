@@ -23,7 +23,7 @@ export default {
     }
   },
   created () {
-    let socket = io('http://localhost:3000')
+    let socket = io({path: '/napi'})
     socket.on('user update', this.setUsers)
   },
   methods: {
